@@ -1,0 +1,835 @@
+{
+  "name": "Lead automation",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Test form",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "First name"
+            },
+            {
+              "fieldLabel": "Last name"
+            },
+            {
+              "fieldLabel": "Email",
+              "fieldType": "email"
+            },
+            {
+              "fieldLabel": "Age",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "16-19"
+                  },
+                  {
+                    "option": "20-29"
+                  },
+                  {
+                    "option": "30-39"
+                  },
+                  {
+                    "option": "40+"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Contact number",
+              "fieldType": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.3,
+      "position": [
+        0,
+        0
+      ],
+      "id": "4857dac1-c5bc-435c-a0a6-1ddd38eb1380",
+      "name": "On form submission",
+      "webhookId": "bd45ad14-51b4-4c52-94e8-161b74a9db9d",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1e7zh9Gw5z4-C_y0PaqhNrz6oev4Q-bVlE1J2Ziev1i8/edit?usp=sharing",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1e7zh9Gw5z4-C_y0PaqhNrz6oev4Q-bVlE1J2Ziev1i8/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "First name": "={{ $json['First name'] }}",
+            "Last name": "={{ $json['Last name'] }}",
+            "Email": "={{ $json.Email }}",
+            "Age": "={{ $json.Age }}",
+            "Contact number": "={{ $json['Contact number'] }}"
+          },
+          "matchingColumns": [
+            "Email"
+          ],
+          "schema": [
+            {
+              "id": "First name",
+              "displayName": "First name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Last name",
+              "displayName": "Last name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Age",
+              "displayName": "Age",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Contact number",
+              "displayName": "Contact number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        208,
+        0
+      ],
+      "id": "02470a4b-727b-40e3-8e04-053658ac066f",
+      "name": "Append or update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "BhF59C4CBJ7NTmLU",
+          "name": "Google Sheets account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "e97abf3b-b295-42bf-8d93-e771896b8b68",
+              "leftValue": "={{ $json.Age }}",
+              "rightValue": "16-19",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        416,
+        0
+      ],
+      "id": "d1de2488-c91c-4fd2-911c-b4b1c8bbde6d",
+      "name": "Filter",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.Age }}",
+                    "rightValue": "20-29",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "4fee0d26-4f30-4da7-9c66-fc4c1604ae0f"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "89baa232-595f-4a43-90ec-d39e5bcce9b9",
+                    "leftValue": "={{ $json.Age }}",
+                    "rightValue": "30-39",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        624,
+        0
+      ],
+      "id": "3ce1c70e-d361-40d0-852b-cb1c36ece9cf",
+      "name": "Switch",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "sendTo": "vishwagad2000@gmail.com",
+        "subject": "Hello ",
+        "message": "20-29 lead",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        832,
+        -96
+      ],
+      "id": "29ca6be3-4fd7-440a-8a2a-2f024ebe0416",
+      "name": "Send a message",
+      "webhookId": "be32b8ed-38f0-4ffe-8cb7-4b9773a426af",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "EFHCsSCH2XsYvSgO",
+          "name": "Gmail account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "sendTo": "vishwagad2000@gmail.com",
+        "subject": "Hello ",
+        "message": "30-39 lead",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        832,
+        144
+      ],
+      "id": "747a9ee1-0473-4be5-a754-8c74bebad4b2",
+      "name": "Send a message1",
+      "webhookId": "be32b8ed-38f0-4ffe-8cb7-4b9773a426af",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "EFHCsSCH2XsYvSgO",
+          "name": "Gmail account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1120,
+        16
+      ],
+      "id": "ac9d371c-4038-4a1e-82e1-b4d5c4a0dc0f",
+      "name": "Merge",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "sendTo": "thetaleroom3010@gmail.com",
+        "subject": "Hello",
+        "message": "You have a new lead",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1328,
+        16
+      ],
+      "id": "69bfc0d8-83b5-4d35-974b-ab4a5b8d3cae",
+      "name": "Send a message2",
+      "webhookId": "98e65cd1-2b93-4506-b677-2881019d47e5",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "EFHCsSCH2XsYvSgO",
+          "name": "Gmail account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "content": "## Submission form trigger",
+        "height": 912,
+        "width": 1680,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -80,
+        -496
+      ],
+      "typeVersion": 1,
+      "id": "1bdc9d8b-fad2-4168-9382-2d04be760551",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        1728,
+        -32
+      ],
+      "id": "b430faa8-e1dd-4939-bfb8-4fdfa99f4407",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "e97abf3b-b295-42bf-8d93-e771896b8b68",
+              "leftValue": "={{ $json.Age }}",
+              "rightValue": "16-19",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        2176,
+        -32
+      ],
+      "id": "6ba58c86-4e10-45e2-9e14-053c6f87db27",
+      "name": "Filter1"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.Age }}",
+                    "rightValue": "20-29",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "4fee0d26-4f30-4da7-9c66-fc4c1604ae0f"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "89baa232-595f-4a43-90ec-d39e5bcce9b9",
+                    "leftValue": "={{ $json.Age }}",
+                    "rightValue": "30-39",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        2384,
+        -32
+      ],
+      "id": "f38828c4-9ca7-490f-b905-82c6a1e13e2a",
+      "name": "Switch1"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.Email }}",
+        "subject": "Hello ",
+        "message": "20-29 lead",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        2736,
+        -160
+      ],
+      "id": "3852e638-2b1c-478a-af85-d13fd7a3b871",
+      "name": "Send a message3",
+      "webhookId": "be32b8ed-38f0-4ffe-8cb7-4b9773a426af",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "EFHCsSCH2XsYvSgO",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "vishwagad2000@gmail.com",
+        "subject": "Hello ",
+        "message": "30-39 lead",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        2752,
+        96
+      ],
+      "id": "1529af36-cd6a-4d0c-8c60-63c2853e17c5",
+      "name": "Send a message4",
+      "webhookId": "be32b8ed-38f0-4ffe-8cb7-4b9773a426af",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "EFHCsSCH2XsYvSgO",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        3088,
+        -32
+      ],
+      "id": "ffe7e75a-058f-4887-8e5a-27f461c43360",
+      "name": "Merge1"
+    },
+    {
+      "parameters": {
+        "sendTo": "thetaleroom3010@gmail.com",
+        "subject": "Hello",
+        "message": "You have a new lead",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        3360,
+        -32
+      ],
+      "id": "d02d6112-d8d8-4b16-9f08-e4e055372b7d",
+      "name": "Send a message5",
+      "webhookId": "98e65cd1-2b93-4506-b677-2881019d47e5",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "EFHCsSCH2XsYvSgO",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Stamp\n*Created on 1st Dec 2025*",
+        "height": 96,
+        "width": 224,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1760,
+        -288
+      ],
+      "typeVersion": 1,
+      "id": "a510c8c0-d440-42d2-a8ea-72d67068674e",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "## On click trigger",
+        "height": 912,
+        "width": 2192,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1648,
+        -496
+      ],
+      "typeVersion": 1,
+      "id": "f1ac6650-995c-49e6-bac3-f74ea3d18ffd",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1Vdj_weLYpo_QXKGmg8Xwi7-5TAlFOwIfJ1FsptTH-BM/edit?gid=2030776819#gid=2030776819",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 2030776819,
+          "mode": "list",
+          "cachedResultName": "Form Responses 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Vdj_weLYpo_QXKGmg8Xwi7-5TAlFOwIfJ1FsptTH-BM/edit#gid=2030776819"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1968,
+        -32
+      ],
+      "id": "7414fcb6-d65c-414b-bcce-5cb31783e4eb",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "BhF59C4CBJ7NTmLU",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            },
+            {}
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "event": "rowAdded",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        1792,
+        192
+      ],
+      "id": "c910517a-7012-4055-8c1d-d85198c5cb80",
+      "name": "Google Sheets Trigger",
+      "disabled": true
+    }
+  ],
+  "pinData": {
+    "On form submission": [
+      {
+        "json": {
+          "First name": "John",
+          "Last name": "Doe",
+          "Email": "JD@gmail.com",
+          "Age": "20-29",
+          "Contact number": 0,
+          "submittedAt": "2025-12-02T12:19:10.692-05:00",
+          "formMode": "test"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Append or update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append or update row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message1": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Send a message2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter1": {
+      "main": [
+        [
+          {
+            "node": "Switch1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch1": {
+      "main": [
+        [
+          {
+            "node": "Send a message3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a message4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message3": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message4": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge1": {
+      "main": [
+        [
+          {
+            "node": "Send a message5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Filter1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "c2a1e619-5b14-4153-b9b1-d7ca595b8f9e",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "8ebb9a89b18275ec93b0191e2838a8a0c727abe8840377645f4c2322f2d509e9"
+  },
+  "id": "TCNAlP6ucqoFzM9H",
+  "tags": [
+    {
+      "updatedAt": "2025-12-15T11:02:30.122Z",
+      "createdAt": "2025-12-15T11:02:30.122Z",
+      "id": "Om7mJW037RfgDitP",
+      "name": "Working"
+    }
+  ]
+}
